@@ -36,18 +36,27 @@
 
   <script>
     var myInterpreter;
-    function initAlert(interpreter, scope) {
+    function postScopeInit(interpreter, scope) {
       var wrapper = function(text) {
         text = text ? text.toString() : '';
         return interpreter.createPrimitive(alert(text));
       };
       interpreter.setProperty(scope, 'alert',
           interpreter.createNativeFunction(wrapper));
+          
+      interpreter.stateStack.addDelegate({
+        handleNodeEvaluation: function(node) {
+          console.log("START", node);
+        },
+        handleNodeEvaluationDone: function(node) {
+          console.log("DONE", node);
+        }
+      });
     };
 
     function parseButton() {
       var code = document.getElementById('code').value
-      myInterpreter = new Interpreter(code, initAlert);
+      myInterpreter = new Interpreter(code, postScopeInit);
       disable('');
     }
 

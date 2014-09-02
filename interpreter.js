@@ -20,8 +20,36 @@
 /**
  * @fileoverview Interpreting JavaScript in JavaScript.
  * @author fraser@google.com (Neil Fraser)
+ * @author zamfire@gmail.com (J.D. Zamfirescu)
  */
 'use strict';
+
+/**
+ * A state stack that notifies delegates of changes.
+ */
+var StateStack = function() {
+  this.delegates = [];
+}
+StateStack.prototype = [];
+StateStack.prototype.addDelegate = function(delegate) {
+  this.delegates.push(delegate);
+}
+StateStack.prototype.unshift = function(node) {
+  this.delegates.forEach(function(delegate) {
+    if (delegate.handleNodeEvaluation) {
+      delegate.handleNodeEvaluation(node, this);
+    }
+  }, this);
+  return Array.prototype.unshift.apply(this, arguments);
+}
+StateStack.prototype.shift = function() {
+  this.delegates.forEach(function(delegate) {
+    if (delegate.handleNodeEvaluationDone) {
+      delegate.handleNodeEvaluationDone(this[0], this);
+    }
+  }, this);
+  return Array.prototype.shift.apply(this, arguments);
+}
 
 /**
  * Create a new interpreter.
@@ -35,8 +63,9 @@ var Interpreter = function(code, opt_initFunc) {
   this.initFunc_ = opt_initFunc;
   this.UNDEFINED = this.createPrimitive(undefined);
   this.ast = acorn.parse(code);
+  this.stateStack = new StateStack();
   var scope = this.createScope(this.ast, null);
-  this.stateStack = [{node: this.ast, scope: scope, thisExpression: scope}];
+  this.stateStack.unshift({node: this.ast, scope: scope, thisExpression: scope});
 };
 
 /**
