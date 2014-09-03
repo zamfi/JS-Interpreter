@@ -36,16 +36,16 @@ StateStack.prototype.addDelegate = function(delegate) {
 }
 StateStack.prototype.unshift = function(node) {
   this.delegates.forEach(function(delegate) {
-    if (delegate.handleNodeEvaluation) {
-      delegate.handleNodeEvaluation(node, this);
+    if (delegate.nodeEvaluationHandler) {
+      delegate.nodeEvaluationHandler(node, this);
     }
   }, this);
   return Array.prototype.unshift.apply(this, arguments);
 }
 StateStack.prototype.shift = function() {
   this.delegates.forEach(function(delegate) {
-    if (delegate.handleNodeEvaluationDone) {
-      delegate.handleNodeEvaluationDone(this[0], this);
+    if (delegate.nodeEvaluationDoneHandler) {
+      delegate.nodeEvaluationDoneHandler(this[0], this);
     }
   }, this);
   return Array.prototype.shift.apply(this, arguments);

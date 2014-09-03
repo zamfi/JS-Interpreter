@@ -45,10 +45,10 @@
           interpreter.createNativeFunction(wrapper));
           
       interpreter.stateStack.addDelegate({
-        handleNodeEvaluation: function(node) {
+        nodeEvaluationHandler: function(node) {
           console.log("START", node);
         },
-        handleNodeEvaluationDone: function(node) {
+        nodeEvaluationDoneHandler: function(node) {
           console.log("DONE", node);
         }
       });
