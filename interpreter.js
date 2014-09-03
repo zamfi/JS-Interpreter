@@ -938,7 +938,7 @@ Interpreter.prototype.isa = function(child, parent) {
  * @param {!Object} a First object.
  * @param {!Object} b Second object.
  * @return {number} -1 if a is smaller, 0 if a == b, 1 if a is bigger,
- *     NaN if they are not comparible.
+ *     NaN if they are not comparable.
  */
 Interpreter.prototype.comp = function(a, b) {
   if (a.isPrimitive && typeof a == 'number' && isNaN(a.data) ||
@@ -956,8 +956,10 @@ Interpreter.prototype.comp = function(a, b) {
     return -1;
   } else if (a > b) {
     return 1;
+  } else if (a == b) {
+    return 0;
   }
-  return 0;
+  return NaN;
 };
 
 /**
@@ -2004,7 +2006,7 @@ Interpreter.prototype['stepUnaryExpression'] = function() {
     if (node.operator == '-') {
       value = -state.value.toNumber();
     } else if (node.operator == '!') {
-      value = !state.value.toNumber();
+      value = !state.value.toBoolean();
     } else if (node.operator == '~') {
       value = ~state.value.toNumber();
     } else if (node.operator == 'typeof') {
