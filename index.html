@@ -3,27 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>JS-Interpreter Demo</title>
-  <style>
-    body {
-      background-color: #fff;
-      font-family: sans-serif;
-    }
-    a:hover {
-      color: red
-    }
-    h1, h2, h3 {
-      font-weight: normal;
-    }
-    #code {
-      font-family: monospace;
-      font-size: larger;
-      height: 15em;
-      width: 100%;
-      max-width: 111ex;
-    }
-  </style>
+  <link href="demos/style.css" rel="stylesheet" type="text/css">
 
-  <script type="text/javascript">
+  <script>
     // Depending on the URL argument, test the compressed or uncompressed version.
     var compressed = (document.location.search == '?compressed');
     if (compressed) {
@@ -32,9 +14,7 @@
       document.write('<scr'+'ipt src="acorn.js"></scr'+'ipt>');
       document.write('<scr'+'ipt src="interpreter.js"></scr'+'ipt>');
     }
-  </script>
 
-  <script>
     var myInterpreter;
     function postScopeInit(interpreter, scope) {
       var wrapper = function(text) {
@@ -80,11 +60,8 @@
     }
 
     function runButton() {
-      try {
-        myInterpreter.run();
-      } finally {
-        disable('disabled');
-      }
+      disable('disabled');
+      myInterpreter.run();
     }
 
     function disable(disabled) {
@@ -136,12 +113,13 @@ alert(result.join(', '));
   </p>
 
   <p><small>
-  <script type="text/javascript">
+  <script>
     if (compressed) {
       document.write('[ Running compressed bundle.  Switch to <A HREF="?uncompressed">raw sources</A>. ]');
     } else {
       document.write('[ Running raw sources.  Switch to <A HREF="?compressed">compressed bundle</A>. ]');
     }
+    disable('disabled');
   </script>
   </small></p>
 
