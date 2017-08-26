@@ -16,14 +16,19 @@
     }
 
     var myInterpreter;
-    function postScopeInit(interpreter, scope) {
+    function initAlert(interpreter, scope) {
       var wrapper = function(text) {
         return alert(arguments.length ? text : '');
       };
       interpreter.setProperty(scope, 'alert',
           interpreter.createNativeFunction(wrapper));
-          
-      interpreter.stateStack.addDelegate({
+    };
+
+    function parseButton() {
+      var code = document.getElementById('code').value
+      myInterpreter = new Interpreter(code, initAlert);
+
+      myInterpreter.stateStack.addDelegate({
         nodeEvaluationHandler: function(node) {
           console.log("START", node);
         },
@@ -31,11 +36,7 @@
           console.log("DONE", node);
         }
       });
-    };
-
-    function parseButton() {
-      var code = document.getElementById('code').value
-      myInterpreter = new Interpreter(code, postScopeInit);
+			
       disable('');
     }
 
