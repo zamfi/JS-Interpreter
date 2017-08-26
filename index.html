@@ -18,8 +18,7 @@
     var myInterpreter;
     function postScopeInit(interpreter, scope) {
       var wrapper = function(text) {
-        text = text ? text.toString() : '';
-        return interpreter.createPrimitive(alert(text));
+        return alert(arguments.length ? text : '');
       };
       interpreter.setProperty(scope, 'alert',
           interpreter.createNativeFunction(wrapper));
@@ -41,8 +40,9 @@
     }
 
     function stepButton() {
-      if (myInterpreter.stateStack[0]) {
-        var node = myInterpreter.stateStack[0].node;
+      if (myInterpreter.stateStack.length) {
+        var node =
+            myInterpreter.stateStack[myInterpreter.stateStack.length - 1].node;
         var start = node.start;
         var end = node.end;
       } else {
