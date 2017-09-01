@@ -46,7 +46,7 @@ StateStack.prototype.push = function(node) {
 StateStack.prototype.pop = function() {
   this.delegates.forEach(function(delegate) {
     if (delegate.nodeEvaluationDoneHandler) {
-      delegate.nodeEvaluationDoneHandler(this[0], this);
+      delegate.nodeEvaluationDoneHandler(this[this.length-1], this);
     }
   }, this);
   return Array.prototype.pop.apply(this, arguments);
