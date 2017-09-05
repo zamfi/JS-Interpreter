@@ -1,0 +1,23 @@
+{
+  "name": "js-interpreter",
+  "version": "1.4.6",
+  "description": "NPM package for https://github.com/zamfi/JS-Interpreter",
+  "main": "lib/index.js",
+  "module": "./interpreter.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zamfi/JS-Interpreter.git"
+  },
+  "author": "J.D. Zamfirescu",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zamfi/JS-Interpreter/issues"
+  },
+  "homepage": "https://github.com/zamfi/JS-Interpreter#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "webpack": "^2.2.1"
+  }
+}

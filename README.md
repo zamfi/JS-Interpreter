@@ -9,3 +9,6 @@ https://neil.fraser.name/software/JS-Interpreter/
 
 Documentation:
 https://neil.fraser.name/software/JS-Interpreter/docs.html
+
+Webpack-ification inspired by:
+https://github.com/aminmarashi/JS-Interpreter

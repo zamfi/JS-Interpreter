@@ -24,6 +24,8 @@
  */
 'use strict';
 
+import acorn from './acorn'
+
 /**
  * A state stack that notifies delegates of changes.
  */
@@ -49,7 +51,14 @@ StateStack.prototype.pop = function() {
       delegate.nodeEvaluationDoneHandler(this[this.length-1], this);
     }
   }, this);
+  this.lastPopped = this[this.length-1];
   return Array.prototype.pop.apply(this, arguments);
+}
+StateStack.prototype.last = function() {
+  return this[this.lenth-1];
+}
+StateStack.prototype.lastPopped = function() {
+  return this.lastPopped;
 }
 
 /**
@@ -3530,3 +3539,5 @@ Interpreter.prototype['nativeToPseudo'] = Interpreter.prototype.nativeToPseudo;
 Interpreter.prototype['pseudoToNative'] = Interpreter.prototype.pseudoToNative;
 // Obsolete.  Do not use.
 Interpreter.prototype['createPrimitive'] = function(x) {return x;};
+
+export default Interpreter
