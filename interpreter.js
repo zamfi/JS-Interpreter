@@ -51,14 +51,22 @@ StateStack.prototype.pop = function() {
       delegate.nodeEvaluationDoneHandler(this[this.length-1], this);
     }
   }, this);
-  this.lastPopped = this[this.length-1];
   return Array.prototype.pop.apply(this, arguments);
 }
-StateStack.prototype.last = function() {
-  return this[this.lenth-1];
+StateStack.prototype.top = function() {
+  return this[this.length-1];
 }
-StateStack.prototype.lastPopped = function() {
-  return this.lastPopped;
+StateStack.prototype.snapshot = function() {
+  this._snapshot = this.slice();
+}
+StateStack.prototype.restore = function() {
+  if (this._snapshot) {
+    this.splice(0, this.length);
+    this._snapshot.forEach(function(e, i) {
+      this[i] = e;
+    }, this);
+    this.length = this._snapshot.length;
+  }
 }
 
 /**
@@ -2434,6 +2442,7 @@ Interpreter.prototype.unwind = function(type, value, label) {
     throw TypeError('Should not unwind for NORMAL completions');
   }
 
+  this.stateStack.snapshot();
   for (var stack = this.stateStack; stack.length > 0; stack.pop()) {
     var state = stack[stack.length - 1];
     switch (state.node['type']) {
@@ -2481,6 +2490,7 @@ Interpreter.prototype.unwind = function(type, value, label) {
   } else {
     realError = String(value);
   }
+  this.stateStack.restore();
   throw realError;
 };
 
