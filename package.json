@@ -1,6 +1,6 @@
 {
   "name": "js-interpreter",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "NPM package for https://github.com/zamfi/JS-Interpreter",
   "main": "lib/index.js",
   "module": "./interpreter.js",
