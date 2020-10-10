@@ -2294,9 +2294,11 @@ Interpreter.prototype.populateScope_ = function(node, scope) {
       this.setProperty(scope, node['declarations'][i]['id']['name'],
           undefined, Interpreter.VARIABLE_DESCRIPTOR);
     }
+    scope.varz = (scope.varz || []).concat(node['declarations'].map(d => d['id']['name']));
   } else if (node['type'] === 'FunctionDeclaration') {
     this.setProperty(scope, node['id']['name'],
         this.createFunction(node, scope), Interpreter.VARIABLE_DESCRIPTOR);
+    scope.varz = (scope.varz || []).concat([node['id']['name']]);
     return;  // Do not recurse into function.
   } else if (node['type'] === 'FunctionExpression') {
     return;  // Do not recurse into function.
